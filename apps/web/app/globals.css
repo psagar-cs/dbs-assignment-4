@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply min-h-screen bg-hero text-ink antialiased;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+a {
+  @apply text-inherit no-underline;
+}
