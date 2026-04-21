@@ -40,12 +40,12 @@ Weather Dashboard is a monorepo app for tracking live weather conditions in favo
 ### `apps/web`
 
 - `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 
 ### `apps/worker`
 
 - `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_SECRET_KEY`
 - `OPEN_METEO_BASE_URL` optional, defaults to `https://api.open-meteo.com`
 - `POLL_INTERVAL_MS` optional, defaults to `30000`
 

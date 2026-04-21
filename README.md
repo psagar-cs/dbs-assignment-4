@@ -12,9 +12,10 @@ Monorepo for a live weather dashboard using Next.js, a Railway worker, Supabase,
 
 1. Copy `apps/web/.env.local.example` to `apps/web/.env.local`
 2. Copy `apps/worker/.env.example` to `apps/worker/.env`
-3. Install dependencies with `npm install`
-4. Run the web app with `npm run dev:web`
-5. Run the worker with `npm run dev:worker`
+3. Add your Supabase project URL plus the publishable key for the web app and the secret key for the worker.
+4. Install dependencies with `npm install`
+5. Run the web app with `npm run dev:web`
+6. Run the worker with `npm run dev:worker`
 
 ## Database
 

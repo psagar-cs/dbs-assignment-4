@@ -6,11 +6,11 @@ export async function createSupabaseServerClient() {
   const cookieStore = await cookies();
   const env = getPublicEnv();
 
-  if (!env.url || !env.anonKey) {
+  if (!env.url || !env.publishableKey) {
     throw new Error("Supabase environment variables are not configured.");
   }
 
-  return createServerClient(env.url, env.anonKey, {
+  return createServerClient(env.url, env.publishableKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
