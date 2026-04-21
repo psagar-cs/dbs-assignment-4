@@ -22,25 +22,42 @@ export async function addFavorite(formData: FormData) {
     timezone: String(formData.get("timezone"))
   };
 
-  const { data: city, error: cityError } = await supabase
+  const { data: existingCity, error: existingCityError } = await supabase
     .from("cities")
-    .upsert(cityPayload, {
-      onConflict: "name,country,latitude,longitude"
-    })
     .select("id")
-    .single();
+    .eq("name", cityPayload.name)
+    .eq("country", cityPayload.country)
+    .eq("latitude", cityPayload.latitude)
+    .eq("longitude", cityPayload.longitude)
+    .maybeSingle();
 
-  if (cityError) {
-    throw cityError;
+  if (existingCityError) {
+    throw new Error(`Failed to look up city: ${existingCityError.message}`);
+  }
+
+  let cityId = existingCity?.id;
+
+  if (!cityId) {
+    const { data: insertedCity, error: insertCityError } = await supabase
+      .from("cities")
+      .insert(cityPayload)
+      .select("id")
+      .single();
+
+    if (insertCityError) {
+      throw new Error(`Failed to create city: ${insertCityError.message}`);
+    }
+
+    cityId = insertedCity.id;
   }
 
   const { error: favoriteError } = await supabase.from("user_favorites").upsert({
     user_id: user.id,
-    city_id: city.id
+    city_id: cityId
   });
 
   if (favoriteError) {
-    throw favoriteError;
+    throw new Error(`Failed to save favorite: ${favoriteError.message}`);
   }
 
   revalidatePath("/dashboard");
@@ -65,7 +82,7 @@ export async function removeFavorite(formData: FormData) {
     .eq("city_id", cityId);
 
   if (error) {
-    throw error;
+    throw new Error(`Failed to remove favorite: ${error.message}`);
   }
 
   revalidatePath("/dashboard");
